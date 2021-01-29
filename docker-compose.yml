@@ -1,0 +1,23 @@
+version: '3.9'
+volumes:
+  docker-volume:
+services:
+    web:
+        build: ./docker/python
+        command: python3 app/app.py
+        volumes:
+            - ./app:/app
+        ports:
+            - 5000:5000
+    db:
+        build: ./docker/mysql
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_DATABASE: db_app
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
+            MYSQL_ROOT_PASSWORD: root
+            TZ: 'Asia/Tokyo'
+        volumes:
+            - docker-volume:/var/lib/mysql
